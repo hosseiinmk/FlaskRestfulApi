@@ -26,11 +26,13 @@ class UserModel(db.Model):
     def __repr__(self):
         return f"User(username: {self.username}, email: {self.email})" 
 
-class Users(Resource):
+class GetUser(Resource):
 
     @marshal_with(userFields)
     def get(self):
         return UserModel.query.all()
+
+class AddUser(Resource):
     
     @marshal_with(userFields)
     def post(self):
@@ -48,7 +50,8 @@ class Users(Resource):
         db.session.commit()
         return UserModel.query.all(), 201
 
-api.add_resource(Users, "/api/users/")
+api.add_resource(GetUser, "/api/users/getUsers")
+api.add_resource(AddUser, "/api/users/addUser")
 
 @app.route("/")
 def home():
